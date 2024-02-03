@@ -3,6 +3,7 @@ package com.co.futbolapi.user.services.services;
 import com.co.futbolapi.user.models.daos.UserDao;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 import com.co.futbolapi.user.models.repositories.UserRepository;
 import com.co.futbolapi.user.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -68,5 +70,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return result;
+    }
+
+    @Override
+    public Optional<GetUserRsDTO> getUserById(UUID id) {
+        Optional<UserDao> user = userRepository.findById(id);
+
+        return user.map(u -> GetUserRsDTO.builder()
+                .id(u.getId())
+                .nickname(u.getNickname())
+                .build());
     }
 }
