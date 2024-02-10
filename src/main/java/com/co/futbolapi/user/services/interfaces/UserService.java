@@ -3,8 +3,10 @@ package com.co.futbolapi.user.services.interfaces;
 import com.co.futbolapi.user.models.daos.UserDao;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * User service.
@@ -33,4 +35,6 @@ public interface UserService {
      * @return {@link Optional} of {@link UserDao}.
      */
     Optional<UserDao> save(UserDao user);
+
+    Optional<GetUserRsDTO> getUserById(UUID id);
 }
