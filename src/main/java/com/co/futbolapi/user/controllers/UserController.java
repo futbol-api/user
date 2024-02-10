@@ -7,7 +7,7 @@ import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 import com.co.futbolapi.user.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
