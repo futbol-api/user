@@ -3,6 +3,7 @@ package com.co.futbolapi.user.controllers;
 import com.co.futbolapi.user.models.dtos.exceptions.RequestExceptions;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 import com.co.futbolapi.user.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @RequestMapping("/user")
 @Slf4j
 @AllArgsConstructor
-public class    UserController {
+public class UserController {
 
     private UserService userService;
 
@@ -33,9 +34,16 @@ public class    UserController {
                 .orElseThrow(() -> new RequestExceptions("401","Error creating user"));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<GetUserRsDTO> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<GetUserRsDTO> getUserById(@PathVariable final UUID id) {
         Optional<GetUserRsDTO> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok)
+                .orElseThrow(() -> new RequestExceptions("404", "User not found"));
+    }
+
+
+    @GetMapping("/")
+    public ResponseEntity<GetAllUserRsDto> getAll() {
+        return userService.getAll().map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User not found"));
     }
 

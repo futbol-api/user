@@ -19,10 +19,12 @@ import java.util.UUID;
 @Getter
 @RedisHash("User")
 public class UserDao {
+
     /**
      * id of the user.
      */
     private UUID id;
+
     /**
      * user names for create the user.
      */

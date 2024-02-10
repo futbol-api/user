@@ -3,6 +3,7 @@ package com.co.futbolapi.user.services.interfaces;
 import com.co.futbolapi.user.models.daos.UserDao;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 
 import java.util.Optional;
@@ -37,4 +38,10 @@ public interface UserService {
     Optional<UserDao> save(UserDao user);
 
     Optional<GetUserRsDTO> getUserById(UUID id);
+
+    /**
+     * get all users.
+     * @return {@link Optional} of {@link GetAllUserRsDto}.
+     */
+    Optional<GetAllUserRsDto> getAll();
 }

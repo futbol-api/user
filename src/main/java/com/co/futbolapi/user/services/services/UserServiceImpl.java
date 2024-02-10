@@ -1,15 +1,21 @@
 package com.co.futbolapi.user.services.services;
 
 import com.co.futbolapi.user.models.daos.UserDao;
+import com.co.futbolapi.user.models.dtos.exceptions.RequestExceptions;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.models.dtos.rs.UserRsDto;
+import com.co.futbolapi.user.models.mappers.UserMapper;
 import com.co.futbolapi.user.models.repositories.UserRepository;
 import com.co.futbolapi.user.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -80,5 +86,23 @@ public class UserServiceImpl implements UserService {
                 .id(u.getId())
                 .nickname(u.getNickname())
                 .build());
+    }
+
+
+    public Optional<List<UserRsDto>> getAllFromDb() {
+        Optional<List<UserRsDto>> result = Optional.empty();
+        try{
+            List<UserDao> daos = userRepository.findAll();
+            result= UserMapper.fromUsersDao(daos);
+        } catch(Exception e){
+            log.error("[save]: Error saving user: {}", e.getMessage());
+        }
+
+        return result;
+    }
+
+    @Override
+    public Optional<GetAllUserRsDto> getAll() {
+        return getAllFromDb().map(u -> GetAllUserRsDto.builder().users(u).build());
     }
 }
