@@ -10,6 +10,5 @@ public class RequestExceptions extends RuntimeException{
     public RequestExceptions(String  code, String message){
         super(message);
         this.code = code;
-
     }
 }
