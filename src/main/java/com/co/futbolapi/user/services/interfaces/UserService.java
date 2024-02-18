@@ -44,4 +44,8 @@ public interface UserService {
      * @return {@link Optional} of {@link GetAllUserRsDto}.
      */
     Optional<GetAllUserRsDto> getAll();
+
+    Optional<GetUserRsDTO> getUserByNickname(String nickname);
+
+
 }
