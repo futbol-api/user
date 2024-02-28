@@ -3,6 +3,7 @@ package com.co.futbolapi.user.services.interfaces;
 import com.co.futbolapi.user.models.daos.UserDao;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.DeleteUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 
@@ -28,7 +29,7 @@ public interface UserService {
      * @param userRq request to create a new user.
      * @return {@link CreateUserRsDto}.
      */
-    CreateUserRsDto createUser(CreateUserRqDto userRq);
+    CreateUserRsDto validateUser(CreateUserRqDto userRq);
 
     /**
      * save a user.
@@ -45,7 +46,17 @@ public interface UserService {
      */
     Optional<GetAllUserRsDto> getAll();
 
-    Optional<GetUserRsDTO> getUserByNickname(String nickname);
+    /**
+     * get user by nickname.
+     * @param nickname to get user.
+     * @return {}@link Optional} of {@link GetUserRsDTO}
+     */
+    Optional<GetUserRsDTO> findByNickname(String nickname);
 
-
+    /**
+     * delete user by nickname.
+     * @param nickname related to user.
+     * @return {@link Optional} of {@link DeleteUserRsDto}.
+     */
+    Optional<DeleteUserRsDto> deleteByNickname(String nickname);
 }
