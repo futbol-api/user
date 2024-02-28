@@ -50,13 +50,11 @@ public class UserController {
                 .orElseThrow(() -> new RequestExceptions("404", "User not found"));
     }
 
-
     @GetMapping("/")
     public ResponseEntity<GetAllUserRsDto> getAll() {
         return userService.getAll().map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User not found"));
     }
-
 
     @GetMapping("/nick/{nickname}")
     public ResponseEntity<GetUserRsDTO> getUserByNickname(@PathVariable String nickname) {
