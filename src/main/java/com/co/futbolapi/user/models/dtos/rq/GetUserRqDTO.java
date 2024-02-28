@@ -18,4 +18,5 @@ public class GetUserRqDTO {
      * unique nickname to identify the user.
      */
     private UUID id;
+    private String nickname;
 }

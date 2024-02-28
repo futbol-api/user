@@ -1,7 +1,6 @@
 package com.co.futbolapi.user.services.services;
 
 import com.co.futbolapi.user.models.daos.UserDao;
-import com.co.futbolapi.user.models.dtos.exceptions.RequestExceptions;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
@@ -12,7 +11,6 @@ import com.co.futbolapi.user.models.repositories.UserRepository;
 import com.co.futbolapi.user.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Request;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -89,6 +87,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
+
     public Optional<List<UserRsDto>> getAllFromDb() {
         Optional<List<UserRsDto>> result = Optional.empty();
         try{
@@ -105,4 +106,16 @@ public class UserServiceImpl implements UserService {
     public Optional<GetAllUserRsDto> getAll() {
         return getAllFromDb().map(u -> GetAllUserRsDto.builder().users(u).build());
     }
+
+    @Override
+    public Optional <GetUserRsDTO> getUserByNickname(String nickname) {
+        Optional<UserDao> user = userRepository.getUserByNickname(nickname);
+        return user.map( u -> GetUserRsDTO.builder()
+                .id(u.getId())
+                .nickname(u.getNickname())
+                .build());
+    }
+
+
+
 }
