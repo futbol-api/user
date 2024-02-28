@@ -2,6 +2,7 @@ package com.co.futbolapi.user.models.mappers;
 
 
 import com.co.futbolapi.user.models.daos.UserDao;
+import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 import com.co.futbolapi.user.models.dtos.rs.UserRsDto;
 
 import java.util.ArrayList;
@@ -46,6 +47,23 @@ public class UserMapper {
                                 .names(user.getNames())
                                 .nickname(user.getNickname())
                                 .id(user.getId()).build())
+                .findFirst();
+    }
+
+    /**
+     * get {@link GetUserRsDTO} from {@link UserDao}.
+     * @param userDao to get the {@link GetUserRsDTO}.
+     * @return {@link Optional} of {@link GetUserRsDTO}.
+     */
+    public static Optional<GetUserRsDTO> getUserRsDTOFromUserDao(final UserDao userDao){
+        return Stream.of(userDao)
+                .filter(user -> user.getId() != null)
+                .filter(user -> user.getNickname() != null)
+                .filter(user -> !user.getNickname().isEmpty())
+                .filter(user -> !user.getNickname().isBlank())
+                .map(user -> GetUserRsDTO.builder()
+                        .nickname(user.getNickname())
+                        .id(user.getId()).build())
                 .findFirst();
     }
 }

@@ -3,6 +3,7 @@ package com.co.futbolapi.user.services.services;
 import com.co.futbolapi.user.models.daos.UserDao;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.DeleteUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 import com.co.futbolapi.user.models.dtos.rs.UserRsDto;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<CreateUserRsDto> create(final CreateUserRqDto userRq) {
-        return Stream.of(createUser(userRq))
+        return Stream.of(validateUser(userRq))
                 .filter(userRs -> userRs.getId() != null)
                 .findFirst();
     }
@@ -49,14 +50,24 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public CreateUserRsDto createUser(final CreateUserRqDto userRq) {
-        log.info("[createUser]: rq: {}", userRq.toString());
+    public CreateUserRsDto validateUser(final CreateUserRqDto userRq) {
+        log.info("[validateUser]: rq: {}", userRq.toString());
+        return getExistUser(userRq).orElseGet(() -> createUser(userRq));
+    }
+
+    private Optional<CreateUserRsDto> getExistUser(CreateUserRqDto userRq) {
+        return userRepository.findByNicknameEquals(userRq.getNickname())
+                .map(user -> CreateUserRsDto.builder().id(user.getId()).build());
+    }
+
+    private CreateUserRsDto createUser(CreateUserRqDto userRq) {
+        log.info("[createUser] creating the user: {}", userRq.toString());
         return save(UserDao.builder()
                 .names(userRq.getNames())
                 .nickname(userRq.getNickname())
                 .build())
                 .map(user -> CreateUserRsDto.builder().id(user.getId()).build())
-                .orElseThrow(() ->new RuntimeException("Error saving user."));
+                .orElseThrow(() -> new RuntimeException("Error saving user."));
     }
 
     /**
@@ -86,10 +97,6 @@ public class UserServiceImpl implements UserService {
                 .build());
     }
 
-
-
-
-
     public Optional<List<UserRsDto>> getAllFromDb() {
         Optional<List<UserRsDto>> result = Optional.empty();
         try{
@@ -108,14 +115,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional <GetUserRsDTO> getUserByNickname(String nickname) {
-        Optional<UserDao> user = userRepository.getUserByNickname(nickname);
-        return user.map( u -> GetUserRsDTO.builder()
-                .id(u.getId())
-                .nickname(u.getNickname())
-                .build());
+    public Optional<GetUserRsDTO> findByNickname(final String nickname) {
+        return userRepository.findByNicknameEquals(nickname).map(UserMapper::getUserRsDTOFromUserDao)
+                .orElseThrow(() -> new RuntimeException("User not found by nickname: " + nickname));
     }
 
-
+    /**
+     * {@inheritDoc}
+     * @param nickname related to user.
+     * @return
+     */
+    @Override
+    public Optional<DeleteUserRsDto> deleteByNickname(String nickname) {
+        return userRepository.findByNicknameEquals(nickname).map(user -> {
+            log.info("user found.");
+            userRepository.deleteById(user.getId());
+            return Optional.of(DeleteUserRsDto.builder()
+                    .message("User " + nickname + " deleted correctly.")
+                    .build());
+        }).orElseGet(() -> {
+            log.error("[deleteByNickname]: Error deleting user by nickname {}", nickname);
+            return Optional.empty();
+        });
+    }
 
 }

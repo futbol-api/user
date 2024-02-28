@@ -1,10 +1,10 @@
 package com.co.futbolapi.user.controllers;
 
 
-import com.co.futbolapi.user.models.daos.UserDao;
 import com.co.futbolapi.user.models.dtos.exceptions.RequestExceptions;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.CreateUserRsDto;
+import com.co.futbolapi.user.models.dtos.rs.DeleteUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetAllUserRsDto;
 import com.co.futbolapi.user.models.dtos.rs.GetUserRsDTO;
 
@@ -17,10 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 /**
@@ -34,10 +32,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserController {
 
+    /**
+     * user service.
+     */
     private UserService userService;
-    private UserRepository userRepository;
-
-
 
     @PostMapping("/")
     public ResponseEntity<CreateUserRsDto> create(@RequestBody final CreateUserRqDto userRq) {
@@ -45,22 +43,12 @@ public class UserController {
                 .orElseThrow(() -> new RequestExceptions("401","Error creating user"));
     }
 
-   /* @GetMapping("/")
-    public ResponseEntity<List<GetUserRsDTO>> findAll() {
-        List<UserDao> users = userRepository.findAll();
-        List<GetUserRsDTO> userRs = users.stream()
-                .map(u -> GetUserRsDTO.builder().id(u.getId()).nickname(u.getNickname()).build())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(userRs);
-    }*/
-
     @GetMapping("/{id}")
     public ResponseEntity<GetUserRsDTO> getUserById(@PathVariable final UUID id) {
         Optional<GetUserRsDTO> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User not found"));
     }
-
 
 
     @GetMapping("/")
@@ -72,11 +60,15 @@ public class UserController {
 
     @GetMapping("/nick/{nickname}")
     public ResponseEntity<GetUserRsDTO> getUserByNickname(@PathVariable String nickname) {
-        Optional<GetUserRsDTO> user = userService.getUserByNickname(nickname);
+        final Optional<GetUserRsDTO> user = userService.findByNickname(nickname);
         return user.map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User with this nickname not found"));
     }
 
-
-
+    @DeleteMapping("/{nickname}")
+    public ResponseEntity<DeleteUserRsDto> deleteByNickname(@PathVariable String nickname) {
+        final Optional<DeleteUserRsDto> userDeleted = userService.deleteByNickname(nickname);
+        return userDeleted.map(ResponseEntity::ok)
+                .orElseThrow(() -> new RequestExceptions("400", "User don't found."));
+    }
 }

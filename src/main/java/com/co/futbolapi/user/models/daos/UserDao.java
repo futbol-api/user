@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.UUID;
 
@@ -33,5 +34,6 @@ public class UserDao {
     /**
      * unique nickname to identify the user.
      */
+    @Indexed
     private String nickname;
 }
