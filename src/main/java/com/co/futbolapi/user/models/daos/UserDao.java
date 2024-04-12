@@ -21,6 +21,7 @@ import java.util.UUID;
 @RedisHash("User")
 public class UserDao {
 
+
     /**
      * id of the user.
      */
