@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetUserRsDTO> getUserById(@PathVariable final UUID id) {
+    public  ResponseEntity<GetUserRsDTO> getUserById(@PathVariable final UUID id) {
         Optional<GetUserRsDTO> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User not found"));

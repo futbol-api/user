@@ -1,5 +1,6 @@
 package com.co.futbolapi.user.models.dtos.rs;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import lombok.ToString;
  * @author luis.bolivar
  */
 @Builder
+@AllArgsConstructor
 @Getter
 @ToString
 public class DeleteUserRsDto {

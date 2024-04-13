@@ -38,7 +38,7 @@ public interface UserService {
      */
     Optional<UserDao> save(UserDao user);
 
-    Optional<GetUserRsDTO> getUserById(UUID id);
+     Optional<GetUserRsDTO> getUserById(UUID id);
 
     /**
      * get all users.

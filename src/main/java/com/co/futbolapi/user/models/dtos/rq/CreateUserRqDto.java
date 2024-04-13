@@ -1,5 +1,6 @@
 package com.co.futbolapi.user.models.dtos.rq;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,6 +13,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
+@AllArgsConstructor
 public class CreateUserRqDto {
     /**
      * user names for create the user.
