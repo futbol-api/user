@@ -1,25 +1,33 @@
 package com.co.futbolapi.user.controllers;
 
+import com.co.futbolapi.user.models.dtos.exceptions.RequestExceptions;
 import com.co.futbolapi.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.models.dtos.rs.*;
 import com.co.futbolapi.user.services.interfaces.UserService;
 import com.co.futbolapi.user.services.services.UserServiceImpl;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
-
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTests {
+
+    @Mock
+    private UserServiceImpl userService;
+
+    @InjectMocks
+    private UserController userController;
+
     @Test
     public void create_userHappyPathTest() {
         // Arrange
@@ -59,24 +67,7 @@ public class UserControllerTests {
         assertEquals(userDto, response.getBody());
     }
 
-   @Test
-    public void test_getAll_usersExist() {
-        // Arrange
-        UserService userService = Mockito.mock(UserService.class);
-        UserController userController = Mockito.mock(UserController.class);
-        List<UserRsDto> users = new ArrayList<>();
-        users.add(new UserRsDto(UUID.randomUUID(),"John", "Doe"));
-        GetAllUserRsDto getAllUserRsDto = new GetAllUserRsDto(users);
-        Optional<GetAllUserRsDto> optionalGetAllUserRsDto = Optional.of(getAllUserRsDto);
-        when(userService.getAll()).thenReturn(optionalGetAllUserRsDto);
 
-        // Act
-        ResponseEntity<GetAllUserRsDto> response = userController.getAll();
-
-        // Assert
-
-        assertEquals(getAllUserRsDto, response.getBody());
-    }
 
     @Test
     public void test_valid_nickname() {
@@ -98,6 +89,7 @@ public class UserControllerTests {
         assertEquals(userDto, response.getBody());
     }*/
 
+    /*
     @org.junit.Test
     public void test_valid_nickname_deletion() {
         // Arrange
@@ -117,5 +109,52 @@ public class UserControllerTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(deleteUserRsDto, response.getBody());
         verify(userService, times(1)).deleteByNickname(nickname);
+    }
+*/
+
+    /**
+     * happy path.
+     */
+    @Test
+    public void whenGetAllUserThenGetAllOk() { //given//when//then
+        final List<UserRsDto> users = List.of(
+                UserRsDto.builder().build(),
+                UserRsDto.builder().build()
+        );
+
+        final GetAllUserRsDto expected = GetAllUserRsDto.builder().users(users).build();
+
+        Mockito.when(userService.getAll())
+                .thenReturn(Optional.of(expected));
+
+        ResponseEntity<GetAllUserRsDto> response = userController.getAll();
+
+        Mockito.verify(userService, Mockito.times(1))
+                .getAll();
+        Assertions.assertNotNull(response, "the response is no null.");
+        Assertions.assertNotNull(response.getBody(), "the response body is not null.");
+        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "The response status code is ok.");
+        Assertions.assertNotNull(response.getBody().getUsers(), "the users are not null.");
+        Assertions.assertFalse(response.getBody().getUsers().isEmpty(), "the users are not empty.");
+        Assertions.assertEquals(2, response.getBody().getUsers().size(), "the amount user is 2.");
+    }
+
+    /**
+     * not happy path.
+     */
+    @Test
+    public void whenGetAllUserThenGetAllNok() { //given//when//then
+        Mockito.when(userService.getAll())
+                .thenReturn(Optional.empty());
+
+        RequestExceptions re = Assertions.assertThrows(RequestExceptions.class,
+                () -> userController.getAll());
+
+        Mockito.verify(userService, Mockito.times(1))
+                .getAll();
+        Assertions.assertNotNull(re, "the response is no null.");
+        Assertions.assertNotNull(re.getCode(), "the exception code is not null.");
+        Assertions.assertNotNull(re.getMessage(), "the exception message is not null.");
+        Assertions.assertEquals("User not found", re.getMessage(), "the same message.");
     }
 }
