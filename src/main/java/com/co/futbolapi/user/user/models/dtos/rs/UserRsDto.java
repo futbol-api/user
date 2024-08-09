@@ -14,11 +14,6 @@ import java.util.UUID;
  */
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-public class UserRsDto {
-    private UUID id;
-    private String nickname;
-    private String names;
+public record UserRsDto (UUID id, String nickname, String names) {
+
 }

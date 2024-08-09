@@ -11,17 +11,13 @@ import lombok.ToString;
  * @author luis.bolivar
  */
 @Builder
-@Getter
-@ToString
-@AllArgsConstructor
-public class CreateUserRqDto {
+public record CreateUserRqDto(String names, String nickname) {
     /**
      * user names for create the user.
      */
-    private String names;
 
     /**
      * unique nickname to identify the user.
      */
-    private String nickname;
+
 }

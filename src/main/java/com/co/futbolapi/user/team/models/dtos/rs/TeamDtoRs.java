@@ -1,4 +1,4 @@
-package com.co.futbolapi.user.team.models.dtos;
+package com.co.futbolapi.user.team.models.dtos.rs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

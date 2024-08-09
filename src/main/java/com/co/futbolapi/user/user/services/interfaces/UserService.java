@@ -5,7 +5,7 @@ import com.co.futbolapi.user.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.user.models.dtos.rs.CreateUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.DeleteUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.GetAllUserRsDto;
-import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDto;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -38,7 +38,7 @@ public interface UserService {
      */
     Optional<UserDao> save(UserDao user);
 
-     Optional<GetUserRsDTO> getUserById(UUID id);
+     Optional<GetUserRsDto> getUserById(UUID id);
 
     /**
      * get all users.
@@ -49,9 +49,9 @@ public interface UserService {
     /**
      * get user by nickname.
      * @param nickname to get user.
-     * @return {}@link Optional} of {@link GetUserRsDTO}
+     * @return {}@link Optional} of {@link GetUserRsDto}
      */
-    Optional<GetUserRsDTO> findByNickname(String nickname);
+    Optional<GetUserRsDto> findByNickname(String nickname);
 
     /**
      * delete user by nickname.

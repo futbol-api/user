@@ -5,7 +5,7 @@ import com.co.futbolapi.user.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.user.models.dtos.rs.CreateUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.DeleteUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.GetAllUserRsDto;
-import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.UserRsDto;
 import com.co.futbolapi.user.user.models.mappers.UserMapper;
 import com.co.futbolapi.user.user.models.repositories.UserRepository;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<CreateUserRsDto> create(final CreateUserRqDto userRq) {
         return Stream.of(validateUser(userRq))
-                .filter(userRs -> userRs.getId() != null)
+                .filter(userRs -> userRs.id() != null)
                 .findFirst();
     }
 
@@ -57,15 +57,15 @@ public class UserServiceImpl implements UserService {
     }
 
     private Optional<CreateUserRsDto> getExistUser(CreateUserRqDto userRq) {
-        return userRepository.findByNicknameEquals(userRq.getNickname())
+        return userRepository.findByNicknameEquals(userRq.nickname())
                 .map(user -> CreateUserRsDto.builder().id(user.getId()).build());
     }
 
     private CreateUserRsDto createUser(CreateUserRqDto userRq) {
         log.info("[createUser] creating the user: {}", userRq.toString());
         return save(UserDao.builder()
-                .names(userRq.getNames())
-                .nickname(userRq.getNickname())
+                .names(userRq.names())
+                .nickname(userRq.nickname())
                 .build())
                 .map(user -> CreateUserRsDto.builder().id(user.getId()).build())
                 .orElseThrow(() -> new RuntimeException("Error saving user."));
@@ -89,10 +89,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<GetUserRsDTO> getUserById(UUID id) {
+    public Optional<GetUserRsDto> getUserById(UUID id) {
         Optional<UserDao> user = userRepository.findById(id);
 
-        return user.map(u -> GetUserRsDTO.builder()
+        return user.map(u -> GetUserRsDto.builder()
                 .id(u.getId())
                 .nickname(u.getNickname())
                 .build());
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<GetUserRsDTO> findByNickname(final String nickname) {
+    public Optional<GetUserRsDto> findByNickname(final String nickname) {
         return userRepository.findByNicknameEquals(nickname).map(UserMapper::getUserRsDTOFromUserDao)
                 .orElseThrow(() -> new RuntimeException("User not found by nickname: " + nickname));
     }

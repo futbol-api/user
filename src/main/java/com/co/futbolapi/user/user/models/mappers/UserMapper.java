@@ -2,7 +2,7 @@ package com.co.futbolapi.user.user.models.mappers;
 
 
 import com.co.futbolapi.user.user.models.daos.UserDao;
-import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.UserRsDto;
 
 import java.util.ArrayList;
@@ -52,17 +52,17 @@ public class UserMapper {
     }
 
     /**
-     * get {@link GetUserRsDTO} from {@link UserDao}.
-     * @param userDao to get the {@link GetUserRsDTO}.
-     * @return {@link Optional} of {@link GetUserRsDTO}.
+     * get {@link GetUserRsDto} from {@link UserDao}.
+     * @param userDao to get the {@link GetUserRsDto}.
+     * @return {@link Optional} of {@link GetUserRsDto}.
      */
-    public static Optional<GetUserRsDTO> getUserRsDTOFromUserDao(final UserDao userDao){
+    public static Optional<GetUserRsDto> getUserRsDTOFromUserDao(final UserDao userDao){
         return Stream.of(userDao)
                 .filter(user -> user.getId() != null)
                 .filter(user -> user.getNickname() != null)
                 .filter(user -> !user.getNickname().isEmpty())
                 .filter(user -> !user.getNickname().isBlank())
-                .map(user -> GetUserRsDTO.builder()
+                .map(user -> GetUserRsDto.builder()
                         .nickname(user.getNickname())
                         .id(user.getId()).build())
                 .findFirst();

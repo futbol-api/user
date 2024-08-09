@@ -57,13 +57,13 @@ public class UserControllerTests {
         UserService userService = Mockito.mock(UserService.class);
         UserController userController = Mockito.mock(UserController.class);
         UUID id = UUID.randomUUID();
-        GetUserRsDTO userDto = new GetUserRsDTO(UUID.randomUUID(), null);
+        GetUserRsDto userDto = new GetUserRsDto(UUID.randomUUID(), null);
 
-        Optional<GetUserRsDTO> userOptional = Optional.of(userDto);
+        Optional<GetUserRsDto> userOptional = Optional.of(userDto);
         when(userService.getUserById(id)).thenReturn(userOptional);
 
         // Act
-        ResponseEntity<GetUserRsDTO> response = userController.getUserById(id);
+        ResponseEntity<GetUserRsDto> response = userController.getUserById(id);
 
         // Assert
 
@@ -79,13 +79,13 @@ public class UserControllerTests {
         UserController controller = Mockito.mock(UserController.class);
 
         String nickname = "valid_nickname";
-        GetUserRsDTO userDto = new GetUserRsDTO(UUID.randomUUID(),"pepe");
+        GetUserRsDto userDto = new GetUserRsDto(UUID.randomUUID(),"pepe");
 
-        Optional<GetUserRsDTO> userOptional = Optional.of(userDto);
+        Optional<GetUserRsDto> userOptional = Optional.of(userDto);
         when(userService.findByNickname(nickname)).thenReturn(userOptional);
 
         // Act
-        ResponseEntity<GetUserRsDTO> response = controller.getUserByNickname(nickname);
+        ResponseEntity<GetUserRsDto> response = controller.getUserByNickname(nickname);
 
         // Assert
 
@@ -137,9 +137,9 @@ public class UserControllerTests {
         Assertions.assertNotNull(response, "the response is no null.");
         Assertions.assertNotNull(response.getBody(), "the response body is not null.");
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful(), "The response status code is ok.");
-        Assertions.assertNotNull(response.getBody().getUsers(), "the users are not null.");
-        Assertions.assertFalse(response.getBody().getUsers().isEmpty(), "the users are not empty.");
-        Assertions.assertEquals(2, response.getBody().getUsers().size(), "the amount user is 2.");
+        Assertions.assertNotNull(response.getBody().users(), "the users are not null.");
+        Assertions.assertFalse(response.getBody().users().isEmpty(), "the users are not empty.");
+        Assertions.assertEquals(2, response.getBody().users().size(), "the amount user is 2.");
     }
 
     /**

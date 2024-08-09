@@ -2,9 +2,8 @@ package com.co.futbolapi.user.user.models.mappers;
 
 
 import com.co.futbolapi.user.user.models.daos.UserDao;
-import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.UserRsDto;
-import com.co.futbolapi.user.user.models.mappers.UserMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,9 +51,9 @@ public class UserMapperTest {
 
         // Assert
         Assert.assertTrue(result.isPresent());
-        assertEquals(userDao.getId(), result.get().getId());
-        assertEquals(userDao.getNickname(), result.get().getNickname());
-        assertNull(result.get().getNames());
+        assertEquals(userDao.getId(), result.get().id());
+        assertEquals(userDao.getNickname(), result.get().nickname());
+        assertNull(result.get().names());
     }
 
     @Test
@@ -67,12 +66,12 @@ public class UserMapperTest {
                 .build();
 
         // Act
-        Optional<GetUserRsDTO> result = UserMapper.getUserRsDTOFromUserDao(userDao);
+        Optional<GetUserRsDto> result = UserMapper.getUserRsDTOFromUserDao(userDao);
 
         // Assert
         assertTrue(result.isPresent());
-        assertEquals(userDao.getId(), result.get().getId());
-        assertEquals(userDao.getNickname(), result.get().getNickname());
+        assertEquals(userDao.getId(), result.get().id());
+        assertEquals(userDao.getNickname(), result.get().nickname());
     }
 
     @Test
@@ -81,7 +80,7 @@ public class UserMapperTest {
         UserDao userDao = new UserDao(null, null, null);
 
         // Act
-        Optional<GetUserRsDTO> result = UserMapper.getUserRsDTOFromUserDao(userDao);
+        Optional<GetUserRsDto> result = UserMapper.getUserRsDTOFromUserDao(userDao);
 
         // Assert
         assertFalse(result.isPresent());

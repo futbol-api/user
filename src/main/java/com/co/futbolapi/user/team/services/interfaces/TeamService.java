@@ -1,6 +1,6 @@
 package com.co.futbolapi.user.team.services.interfaces;
 
-import com.co.futbolapi.user.team.models.dtos.TeamDtoRs;
+import com.co.futbolapi.user.team.models.dtos.rs.TeamDtoRs;
 
 import java.util.Optional;
 

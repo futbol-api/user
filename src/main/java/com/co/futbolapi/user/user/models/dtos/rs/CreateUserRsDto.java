@@ -13,12 +13,9 @@ import java.util.UUID;
  * @author luis.bolivar"
  */
 @Builder
-@Getter
-@ToString
-@AllArgsConstructor
-public class CreateUserRsDto {
+public record CreateUserRsDto(UUID id) {
     /**
      * represents that user was created.
      */
-    private UUID id;
+
 }

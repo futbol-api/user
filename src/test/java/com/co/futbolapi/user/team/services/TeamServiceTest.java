@@ -1,7 +1,7 @@
 package com.co.futbolapi.user.team.services;
 
 import com.co.futbolapi.user.team.models.daos.TeamDao;
-import com.co.futbolapi.user.team.models.dtos.TeamDtoRs;
+import com.co.futbolapi.user.team.models.dtos.rs.TeamDtoRs;
 import com.co.futbolapi.user.team.models.repos.TeamRepo;
 import com.co.futbolapi.user.team.services.services.TeamServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

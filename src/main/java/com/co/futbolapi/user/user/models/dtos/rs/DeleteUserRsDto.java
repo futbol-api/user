@@ -11,12 +11,8 @@ import lombok.ToString;
  * @author luis.bolivar
  */
 @Builder
-@AllArgsConstructor
-@Getter
-@ToString
-public class DeleteUserRsDto {
+public record   DeleteUserRsDto (String message) {
     /**
      * message with respect to delete process.
      */
-    private String message;
 }

@@ -6,7 +6,7 @@ import com.co.futbolapi.user.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.user.models.dtos.rs.CreateUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.DeleteUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.GetAllUserRsDto;
-import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDto;
 
 import com.co.futbolapi.user.user.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
@@ -43,8 +43,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity<GetUserRsDTO> getUserById(@PathVariable final UUID id) {
-        Optional<GetUserRsDTO> user = userService.getUserById(id);
+    public  ResponseEntity<GetUserRsDto> getUserById(@PathVariable final UUID id) {
+        Optional<GetUserRsDto> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User not found"));
     }
@@ -56,8 +56,8 @@ public class UserController {
     }
 
     @GetMapping("/nick/{nickname}")
-    public ResponseEntity<GetUserRsDTO> getUserByNickname(@PathVariable String nickname) {
-        final Optional<GetUserRsDTO> user = userService.findByNickname(nickname);
+    public ResponseEntity<GetUserRsDto> getUserByNickname(@PathVariable String nickname) {
+        final Optional<GetUserRsDto> user = userService.findByNickname(nickname);
         return user.map(ResponseEntity::ok)
                 .orElseThrow(() -> new RequestExceptions("404", "User with this nickname not found"));
     }

@@ -13,13 +13,9 @@ import java.util.List;
  * @author luis.bolivar
  */
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-public class GetAllUserRsDto {
+public record GetAllUserRsDto(List<UserRsDto> users) {
 
     /**
      * all users available.
      */
-    private List<UserRsDto> users;
 }

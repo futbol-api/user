@@ -4,7 +4,7 @@ import com.co.futbolapi.user.user.models.daos.UserDao;
 import com.co.futbolapi.user.user.models.dtos.rq.CreateUserRqDto;
 import com.co.futbolapi.user.user.models.dtos.rs.CreateUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.DeleteUserRsDto;
-import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDTO;
+import com.co.futbolapi.user.user.models.dtos.rs.GetUserRsDto;
 import com.co.futbolapi.user.user.models.dtos.rs.UserRsDto;
 import com.co.futbolapi.user.user.models.repositories.UserRepository;
 import com.co.futbolapi.user.user.services.services.UserServiceImpl;
@@ -57,8 +57,8 @@ public class UserServiceTest {
         assertNotNull(request);
         Mockito.verify(userRepository, times(1)).findByNicknameEquals(Mockito.anyString());
         Assertions.assertEquals(Boolean.TRUE, result.isPresent(), "The optional is not empty.");
-        Assertions.assertNotNull(result.get().getId(), "The id is not null.");
-        Assertions.assertEquals(id, result.get().getId(), "The id is the same");
+        Assertions.assertNotNull(result.get().id(), "The id is not null.");
+        Assertions.assertEquals(id, result.get().id(), "The id is the same");
     }
 /*
     @Test
@@ -116,12 +116,12 @@ public class UserServiceTest {
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
 
         // Act
-        Optional<GetUserRsDTO> result = userService.getUserById(id);
+        Optional<GetUserRsDto> result = userService.getUserById(id);
 
         // Assert
         assertTrue(result.isPresent());
-        assertEquals(id, result.get().getId());
-        assertEquals("testUser", result.get().getNickname());
+        assertEquals(id, result.get().id());
+        assertEquals("testUser", result.get().nickname());
     }
 
     @Test
@@ -141,8 +141,8 @@ public class UserServiceTest {
 
         assertTrue(result.isPresent());
         assertEquals(1, result.get().size());
-        assertEquals("John Doe", result.get().get(0).getNames());
-        assertEquals("johndoe", result.get().get(0).getNickname());
+        assertEquals("John Doe", result.get().get(0).names());
+        assertEquals("johndoe", result.get().get(0).nickname());
     }
 
     @Test
@@ -161,7 +161,7 @@ public class UserServiceTest {
 
         // Assert
         assertTrue(result.isPresent());
-        assertEquals("User " + nickname + " deleted correctly.", result.get().getMessage());
+        assertEquals("User " + nickname + " deleted correctly.", result.get().message());
         Mockito.verify(userRepository, times(1)).deleteById(user.getId());
     }
 

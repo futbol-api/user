@@ -1,6 +1,6 @@
 package com.co.futbolapi.user.team.services.services;
 
-import com.co.futbolapi.user.team.models.dtos.TeamDtoRs;
+import com.co.futbolapi.user.team.models.dtos.rs.TeamDtoRs;
 import com.co.futbolapi.user.team.services.interfaces.TeamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
