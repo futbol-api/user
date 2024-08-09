@@ -26,7 +26,8 @@ public class UserMapper {
         final List<UserRsDto> list = new ArrayList<>();
         Optional<List<UserRsDto>>  result = Optional.empty();
         if(userDaos != null && !userDaos.isEmpty()) {
-            userDaos.parallelStream().forEach(userDao -> fromUserDao(userDao).ifPresent(list::add));
+            userDaos.parallelStream().
+                    forEach(userDao -> fromUserDao(userDao).ifPresent(list::add));
             result = Optional.of(list);
         }
        return result;
